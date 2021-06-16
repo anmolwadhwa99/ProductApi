@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProductApi.Model;
 using ProductApi.Services.Interface;
 
 namespace ProductApi.Controllers
@@ -18,10 +21,31 @@ namespace ProductApi.Controllers
         }
 
         [HttpGet("list")]
-        public IActionResult GetAllProducts()
+        public ActionResult GetAllProducts()
         {
             _logger.LogInformation("Listing all products");
             return Ok(_productService.ListAllProducts());
+        }
+
+        [HttpPost]
+        public ActionResult<Product> CreateProduct(Product product)
+        {
+            try
+            {
+                _logger.LogInformation("Creating product");
+
+                if (product == null)
+                {
+                    return BadRequest();
+                }
+                
+                var createdProduct = _productService.CreateProduct(product);
+                return createdProduct;
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating product");
+            }
         }
     }
 }

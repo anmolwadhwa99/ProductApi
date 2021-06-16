@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProductApi.Dtos;
+using ProductApi.Model;
 using ProductApi.Repositories.Interface;
 using ProductApi.Services.Interface;
 
@@ -19,6 +20,11 @@ namespace ProductApi.Services
         {
             var productList = _productRepository.ListAllProducts();
             return productList.Select(ProductDto.MapFrom).ToList();
+        }
+
+        public Product CreateProduct(Product product)
+        {
+            return _productRepository.CreateProduct(product);
         }
     }
 }

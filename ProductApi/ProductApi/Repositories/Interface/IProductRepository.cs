@@ -6,5 +6,6 @@ namespace ProductApi.Repositories.Interface
     public interface IProductRepository
     {
         IList<Product> ListAllProducts();
+        Product CreateProduct(Product product);
     }
 }
